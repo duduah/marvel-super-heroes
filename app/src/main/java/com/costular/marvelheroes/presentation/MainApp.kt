@@ -8,17 +8,17 @@ import com.facebook.stetho.Stetho
 
 class MainApp : Application() {
 
-    val component: ApplicationComponent by lazy {
-        DaggerApplicationComponent.builder()
-                .applicationModule(ApplicationModule(this))
-                .build()
-    }
+    lateinit var component: ApplicationComponent
 
     // TODO: remove onCreate if it only runs stetho.
     override fun onCreate() {
         super.onCreate()
 
         Stetho.initializeWithDefaults(this)
-    }
 
+        component = DaggerApplicationComponent.builder()
+                .applicationModule(ApplicationModule(this))
+                .build()
+
+    }
 }
