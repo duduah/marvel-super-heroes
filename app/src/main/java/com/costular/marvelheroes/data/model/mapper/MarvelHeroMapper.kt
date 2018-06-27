@@ -16,13 +16,14 @@ class MarvelHeroMapper : Mapper<MarvelHero, MarvelHeroEntity> {
                     input.height,
                     input.power,
                     input.abilities,
-                    getGroupsFromMarvelHero(input))
+                    input.groups)
 
     override fun transformList(inputList: List<MarvelHero>): List<MarvelHeroEntity> =
             inputList.map { transform(it) }
 
+    // TODO: review the group array
 
-    private fun getGroupsFromMarvelHero(marvelHero: MarvelHero): Array<String> =
-            marvelHero.groups.replace("\\s".toRegex(), "").split(",").toTypedArray()
+/*    private fun getGroupsFromMarvelHero(marvelHero: MarvelHero): Array<String> =
+            marvelHero.groups.replace("\\s".toRegex(), "").split(",").toTypedArray()*/
 
 }
