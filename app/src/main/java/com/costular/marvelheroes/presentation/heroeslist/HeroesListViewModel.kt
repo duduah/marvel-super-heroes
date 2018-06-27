@@ -14,12 +14,15 @@ class HeroesListViewModel @Inject constructor(val marvelHeroesRepository: Marvel
     : BaseViewModel() {
 
     val heroesListState : MutableLiveData<List<MarvelHeroEntity>> = MutableLiveData()
+    val isLoadingState : MutableLiveData<Boolean> = MutableLiveData()
 
     fun loadHeroesList() {
         marvelHeroesRepository
                 .getMarvelHeroesList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe{ isLoadingState.postValue(true)}
+                .doOnTerminate { isLoadingState.postValue(false) }
                 .subscribeBy(
                         onNext = {
                             heroesListState.value = it

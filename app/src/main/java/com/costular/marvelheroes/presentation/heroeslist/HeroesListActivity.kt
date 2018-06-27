@@ -1,5 +1,8 @@
 package com.costular.marvelheroes.presentation.heroeslist
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
@@ -7,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import android.widget.Toast
 import com.costular.marvelheroes.R
+import com.costular.marvelheroes.di.components.DaggerApplicationComponent
 import com.costular.marvelheroes.di.components.DaggerGetMarvelHeroesListComponent
 import com.costular.marvelheroes.di.modules.GetMarvelHeroesListModule
 import com.costular.marvelheroes.domain.model.MarvelHeroEntity
@@ -17,8 +21,13 @@ import javax.inject.Inject
 
 class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
 
+    lateinit var heroListViewModel: HeroesListViewModel
+
     @Inject
     lateinit var navigator: Navigator
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
     lateinit var presenter: HeroesListPresenter
@@ -27,6 +36,7 @@ class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         inject()
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setUp()
@@ -43,6 +53,27 @@ class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
     private fun setUp() {
         setUpRecycler()
         presenter.loadMarvelHeroes()
+    }
+
+    private fun setUpViewModel() {
+        heroListViewModel = ViewModelProviders.of(this, viewModelFactory).get(HeroesListViewModel::class.java)
+        bindEvents()
+        heroListViewModel.loadHeroesList()
+    }
+
+    private fun bindEvents() {
+
+        heroListViewModel.isLoadingState.observe(this, Observer {
+            it?.let {
+                showLoading(it)
+            }
+        })
+
+        heroListViewModel.heroesListState.observe(this, Observer {
+            it?.let {
+                showHeroesList(it)
+            }
+        })
     }
 
     private fun setUpRecycler() {
