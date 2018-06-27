@@ -3,21 +3,18 @@ package com.costular.marvelheroes.presentation.heroeslist
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import android.widget.Toast
 import com.costular.marvelheroes.R
-import com.costular.marvelheroes.di.components.DaggerApplicationComponent
-import com.costular.marvelheroes.di.components.DaggerGetMarvelHeroesListComponent
-import com.costular.marvelheroes.di.modules.GetMarvelHeroesListModule
 import com.costular.marvelheroes.domain.model.MarvelHeroEntity
 import com.costular.marvelheroes.presentation.MainApp
 import com.costular.marvelheroes.presentation.util.Navigator
-import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
+import kotlinx.android.synthetic.main.activity_main.*
 
 class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
 
@@ -29,9 +26,6 @@ class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    @Inject
-    lateinit var presenter: HeroesListPresenter
-
     lateinit var adapter: HeroesListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,21 +33,15 @@ class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setUp()
+        setUpRecycler()
+        setUpViewModel()
     }
+
 
     fun inject() {
-        DaggerGetMarvelHeroesListComponent.builder()
-                .applicationComponent((application as MainApp).component)
-                .getMarvelHeroesListModule(GetMarvelHeroesListModule(this))
-                .build()
-                .inject(this)
+        (application as MainApp).component.inject(this)
     }
 
-    private fun setUp() {
-        setUpRecycler()
-        presenter.loadMarvelHeroes()
-    }
 
     private fun setUpViewModel() {
         heroListViewModel = ViewModelProviders.of(this, viewModelFactory).get(HeroesListViewModel::class.java)
@@ -93,11 +81,6 @@ class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
 
     override fun showHeroesList(heroes: List<MarvelHeroEntity>) {
         adapter.swapData(heroes)
-    }
-
-    override fun onDestroy() {
-        presenter.destroy()
-        super.onDestroy()
     }
 
     override fun showError(message: String) {
