@@ -31,4 +31,20 @@ class HeroesListViewModel @Inject constructor(val marvelHeroesRepository: Marvel
                 )
                 .addTo(compositeDisposable)
     }
+
+    fun updateFavourite(marvelHero: MarvelHeroEntity) {
+        marvelHeroesRepository
+                .updateMarvelHeroFavourite(marvelHero)
+                .subscribeOn(Schedulers.io())
+                .subscribeBy(
+                        onNext = {
+                            loadHeroesList()
+                        },
+                        onError = {
+
+                        }
+                )
+                .addTo(compositeDisposable)
+
+    }
 }

@@ -1,5 +1,7 @@
 package com.costular.marvelheroes.presentation.heroedetail
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -14,13 +16,17 @@ import com.costular.marvelheroes.R
 import com.costular.marvelheroes.domain.model.MarvelHeroEntity
 import kotlinx.android.synthetic.main.activity_hero_detail.*
 
-/**
- * Created by costular on 18/03/2018.
- */
+
 class MarvelHeroeDetailActivity : AppCompatActivity() {
 
     companion object {
         const val PARAM_HEROE = "heroe"
+
+        fun intent(context: Context, hero: MarvelHeroEntity): Intent =
+                Intent(context, MarvelHeroeDetailActivity::class.java).apply {
+                    putExtra(PARAM_HEROE, hero)
+                }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

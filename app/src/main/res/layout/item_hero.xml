@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movie_container"
     android:layout_width="match_parent"
@@ -8,13 +9,29 @@
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground">
 
-    <com.costular.marvelheroes.presentation.util.SquareImageView
-        android:id="@+id/heroImage"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:transitionName="@string/image_transition"
-        tools:targetApi="lollipop" />
+        android:layout_height="wrap_content">
+
+        <com.costular.marvelheroes.presentation.util.SquareImageView
+            android:id="@+id/heroImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:transitionName="@string/image_transition"
+            tools:targetApi="lollipop" />
+
+        <ImageView
+            android:id="@+id/heroFavouriteIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="right |top"
+            app:srcCompat="@drawable/favourite_off" />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/heroTitle"

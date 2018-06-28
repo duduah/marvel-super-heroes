@@ -65,10 +65,20 @@ class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
     }
 
     private fun setUpRecycler() {
-        adapter = HeroesListAdapter { hero, image -> goToHeroDetail(hero, image) }
+        adapter = HeroesListAdapter (
+                { hero, image ->
+                    goToHeroDetail(hero, image)
+                },
+                { hero ->
+                    updateFavouriteHero(hero)
+                })
         heroesListRecycler.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
         heroesListRecycler.itemAnimator = DefaultItemAnimator()
         heroesListRecycler.adapter = adapter
+    }
+
+    private fun updateFavouriteHero(hero: MarvelHeroEntity) {
+        heroListViewModel.updateFavourite(hero)
     }
 
     private fun goToHeroDetail(hero: MarvelHeroEntity, image: View) {
