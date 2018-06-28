@@ -12,6 +12,12 @@ class LocalMarvelHeroesDataSource(private val marvelHeroesDataBase: MarvelHeroes
                     .getAllSuperheroes()
                     .toObservable()
 
+    override fun getMarvelHero(marvelHeroName: String): Observable<MarvelHeroEntity> =
+        marvelHeroesDataBase
+                .getMarvelHeroesDao()
+                .getSuperhero(marvelHeroName)
+                .toObservable()
+
 
     fun saveMarvelHeroesList(marvelHeroes: List<MarvelHeroEntity>) {
         marvelHeroesDataBase

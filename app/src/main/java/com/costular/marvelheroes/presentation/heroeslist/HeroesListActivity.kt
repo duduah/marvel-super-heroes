@@ -78,6 +78,7 @@ class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
     }
 
     private fun updateFavouriteHero(hero: MarvelHeroEntity) {
+        // TODO: review why it doesn't update, because it gets de hero.favourite updated.
         heroListViewModel.updateFavourite(hero)
     }
 

@@ -11,4 +11,6 @@ interface MarvelHeroesDataSource {
 
     fun getMarvelHeroesList(): Observable<List<MarvelHeroEntity>>
 
+    fun getMarvelHero(marvelHeroName: String): Observable<MarvelHeroEntity>
+
 }
