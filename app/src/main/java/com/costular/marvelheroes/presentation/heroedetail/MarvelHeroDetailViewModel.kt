@@ -1,4 +1,4 @@
-package com.costular.marvelheroes.presentation.heroeslist
+package com.costular.marvelheroes.presentation.heroedetail
 
 import android.arch.lifecycle.MutableLiveData
 import com.costular.marvelheroes.data.repository.MarvelHeroesRepository
@@ -10,41 +10,44 @@ import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class HeroesListViewModel @Inject constructor(val marvelHeroesRepository: MarvelHeroesRepository)
+class MarvelHeroDetailViewModel @Inject constructor(val marvelHeroesRepository: MarvelHeroesRepository)
     : BaseViewModel() {
 
-    val heroesListState : MutableLiveData<List<MarvelHeroEntity>> = MutableLiveData()
-    val isLoadingState : MutableLiveData<Boolean> = MutableLiveData()
+    val heroState: MutableLiveData<MarvelHeroEntity> = MutableLiveData()
+    val isLoadingState: MutableLiveData<Boolean> = MutableLiveData()
+    val heroUpdateState: MutableLiveData<Boolean> = MutableLiveData()
 
-    fun loadHeroesList() {
+    fun loadHero(marvelHeroName: String){
         marvelHeroesRepository
-                .getMarvelHeroesList()
+                .getMarvelHero(marvelHeroName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe{ isLoadingState.postValue(true)}
+                .doOnSubscribe { isLoadingState.postValue(true) }
                 .doOnTerminate { isLoadingState.postValue(false) }
                 .subscribeBy(
                         onNext = {
-                            heroesListState.value = it
+                            heroState.value = it
                         },
                         onError = {}
                 )
                 .addTo(compositeDisposable)
     }
 
-    fun updateFavourite(marvelHero: MarvelHeroEntity) {
+    fun updateHero(marvelHeroEntity: MarvelHeroEntity) {
         marvelHeroesRepository
-                .updateMarvelHero(marvelHero)
+                .updateMarvelHero(marvelHeroEntity)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { isLoadingState.postValue(true) }
+                .doOnTerminate { isLoadingState.postValue(false) }
                 .subscribeBy(
                         onNext = {
-                            heroesListState.value = heroesListState.value
+                            heroUpdateState.value = true
                         },
                         onError = {
-
+                            heroUpdateState.value = false
                         }
                 )
                 .addTo(compositeDisposable)
-
     }
 }

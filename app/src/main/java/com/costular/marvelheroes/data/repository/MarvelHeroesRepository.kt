@@ -10,4 +10,7 @@ interface MarvelHeroesRepository {
 
     fun getMarvelHeroesList(): Observable<List<MarvelHeroEntity>>
 
+    fun getMarvelHero(marvelHeroName: String): Observable<MarvelHeroEntity>
+
+    fun updateMarvelHero(marvelHeroEntity: MarvelHeroEntity): Observable<Int>
 }

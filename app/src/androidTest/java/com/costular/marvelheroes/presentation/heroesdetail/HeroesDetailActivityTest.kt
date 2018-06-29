@@ -12,7 +12,6 @@ import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.costular.marvelheroes.R
-import com.costular.marvelheroes.domain.model.MarvelHeroEntity
 import com.costular.marvelheroes.presentation.FakeData
 import com.costular.marvelheroes.presentation.heroedetail.MarvelHeroeDetailActivity
 import org.junit.Test
@@ -38,7 +37,7 @@ class HeroesDetailActivityTest {
                 InstrumentationRegistry.getTargetContext(),
                 MarvelHeroeDetailActivity::class.java
         ).apply {
-            putExtra(MarvelHeroeDetailActivity.PARAM_HEROE, FakeData.IRON_MAN)
+            putExtra(MarvelHeroeDetailActivity.PARAM_HERO, FakeData.IRON_MAN)
         }
         activityTestRule.launchActivity(intent)
 
