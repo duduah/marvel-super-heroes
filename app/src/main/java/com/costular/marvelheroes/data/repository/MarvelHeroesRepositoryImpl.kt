@@ -1,10 +1,10 @@
 package com.costular.marvelheroes.data.repository
 
-import android.text.BoringLayout
 import com.costular.marvelheroes.data.repository.datasource.LocalMarvelHeroesDataSource
 import com.costular.marvelheroes.data.repository.datasource.RemoteMarvelHeroesDataSource
 import com.costular.marvelheroes.domain.model.MarvelHeroEntity
 import io.reactivex.Observable
+import io.reactivex.rxkotlin.zipWith
 
 
 class MarvelHeroesRepositoryImpl(private val localMarvelHeroesDataSource: LocalMarvelHeroesDataSource,
@@ -17,7 +17,7 @@ class MarvelHeroesRepositoryImpl(private val localMarvelHeroesDataSource: LocalM
 
     override fun getMarvelHero(marvelHeroName: String): Observable<MarvelHeroEntity> =
             getMarvelHeroFromDb(marvelHeroName)
-                    .mergeWith(getMarvelHeroFromApi(marvelHeroName))
+                    .switchIfEmpty(getMarvelHeroFromApi(marvelHeroName))
 
     override fun updateMarvelHero(marvelHeroEntity: MarvelHeroEntity): Observable<Int> =
             localMarvelHeroesDataSource.updateMarvelHeroFavourite(marvelHeroEntity)
