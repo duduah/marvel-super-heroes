@@ -67,7 +67,7 @@ class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
     private fun setUpRecycler() {
         adapter = HeroesListAdapter (
                 { hero, image ->
-                    goToHeroDetail(hero, image)
+                    goToHeroDetail(hero.name, image)
                 },
                 { hero ->
                     updateFavouriteHero(hero)
@@ -82,8 +82,8 @@ class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
         heroListViewModel.updateFavourite(hero)
     }
 
-    private fun goToHeroDetail(hero: MarvelHeroEntity, image: View) {
-        navigator.goToHeroDetail(this, hero, image)
+    private fun goToHeroDetail(heroName: String, image: View) {
+        navigator.goToHeroDetail(this, heroName, image)
     }
 
     override fun showLoading(isLoading: Boolean) {

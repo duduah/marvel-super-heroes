@@ -19,4 +19,12 @@ class Navigator {
         activity.startActivity(intent, options.toBundle())
     }
 
+    fun goToHeroDetail(activity: Activity, heroName: String, image: View) {
+        var options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, image,
+                ViewCompat.getTransitionName(image))
+        val intent = MarvelHeroeDetailActivity.intent(activity, heroName)
+
+        activity.startActivity(intent, options.toBundle())
+    }
+
 }

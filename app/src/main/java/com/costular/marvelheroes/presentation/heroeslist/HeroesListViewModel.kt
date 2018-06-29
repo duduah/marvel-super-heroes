@@ -34,11 +34,11 @@ class HeroesListViewModel @Inject constructor(val marvelHeroesRepository: Marvel
 
     fun updateFavourite(marvelHero: MarvelHeroEntity) {
         marvelHeroesRepository
-                .updateMarvelHeroFavourite(marvelHero)
+                .updateMarvelHero(marvelHero)
                 .subscribeOn(Schedulers.io())
                 .subscribeBy(
                         onNext = {
-                            loadHeroesList()
+                            heroesListState.value = heroesListState.value
                         },
                         onError = {
 
