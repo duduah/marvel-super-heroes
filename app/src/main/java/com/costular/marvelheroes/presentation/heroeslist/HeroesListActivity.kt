@@ -65,14 +65,25 @@ class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
     }
 
     private fun setUpRecycler() {
-        adapter = HeroesListAdapter { hero, image -> goToHeroDetail(hero, image) }
+        adapter = HeroesListAdapter (
+                { hero, image ->
+                    goToHeroDetail(hero.name, image)
+                },
+                { hero ->
+                    updateFavouriteHero(hero)
+                })
         heroesListRecycler.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
         heroesListRecycler.itemAnimator = DefaultItemAnimator()
         heroesListRecycler.adapter = adapter
     }
 
-    private fun goToHeroDetail(hero: MarvelHeroEntity, image: View) {
-        navigator.goToHeroDetail(this, hero, image)
+    private fun updateFavouriteHero(hero: MarvelHeroEntity) {
+        // TODO: review why it doesn't update, because it gets de hero.favourite updated.
+        heroListViewModel.updateFavourite(hero)
+    }
+
+    private fun goToHeroDetail(heroName: String, image: View) {
+        navigator.goToHeroDetail(this, heroName, image)
     }
 
     override fun showLoading(isLoading: Boolean) {

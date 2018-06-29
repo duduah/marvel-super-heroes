@@ -1,11 +1,9 @@
 package com.costular.marvelheroes.data.db
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import com.costular.marvelheroes.domain.model.MarvelHeroEntity
 import io.reactivex.Maybe
+import io.reactivex.Observable
 
 @Dao
 abstract class MarvelHeroesDao {
@@ -20,6 +18,9 @@ abstract class MarvelHeroesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertAll(SuperheroesList: List<MarvelHeroEntity>)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun updateHero(hero: MarvelHeroEntity): Int
 
     // TODO: implements update to set favorite item for superheroe
 }

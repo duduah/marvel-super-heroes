@@ -15,4 +15,15 @@ class RemoteMarvelHeroesDataSource(private val marvelHeroesService: MarvelHeroes
                     .getMarvelHeroesList()
                     .map { it.superheroes }
                     .map { marvelHeroMapper.transformList(it) }
+
+    override fun getMarvelHero(marvelHeroName: String): Observable<MarvelHeroEntity> =
+            marvelHeroesService
+                    .getMarvelHeroesList()
+                    .map { it.superheroes }
+                    .map {
+                        marvelHeroMapper.transformList(it).findLast {
+                            it.name == marvelHeroName
+                        }
+                    }
+
 }
