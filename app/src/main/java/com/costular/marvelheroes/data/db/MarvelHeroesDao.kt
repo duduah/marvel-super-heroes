@@ -16,8 +16,11 @@ abstract class MarvelHeroesDao {
     @Query("SELECT * FROM superheroes WHERE name = :heroName")
     abstract fun getSuperhero(heroName: String): Maybe<MarvelHeroEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun insertAll(SuperheroesList: List<MarvelHeroEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insertHero(hero: MarvelHeroEntity)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     abstract fun updateHero(hero: MarvelHeroEntity): Int

@@ -41,7 +41,7 @@ class HeroesListAdapter(val clickListener: Click,
     override fun onBindViewHolder(holder: HeroesViewHolder, position: Int) = holder.bind(data[position])
 
     fun swapData(data: List<MarvelHeroEntity>) {
-        this.data.clear()
+        //this.data.clear()
         this.data.addAll(data)
         notifyDataSetChanged()
     }

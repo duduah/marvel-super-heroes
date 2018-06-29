@@ -43,6 +43,7 @@ class MarvelHeroDetailViewModel @Inject constructor(val marvelHeroesRepository: 
                 .subscribeBy(
                         onNext = {
                             heroUpdateState.value = true
+                            heroState.value = marvelHeroEntity
                         },
                         onError = {
                             heroUpdateState.value = false

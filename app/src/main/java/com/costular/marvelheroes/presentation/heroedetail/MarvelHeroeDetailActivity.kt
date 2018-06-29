@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -45,6 +46,7 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    lateinit var marvelHero: MarvelHeroEntity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         inject()
@@ -58,8 +60,35 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
         supportPostponeEnterTransition() // Wait for image load and then draw the animation
 
         setUpViewModel()
+        heroFavouriteIcon.setOnClickListener { updateFavourite() }
 
-        heroFavouriteIcon.setOnClickListener {  }
+    }
+
+    private fun updateFavourite() {
+        bindHeroUpdateEvent()
+        val marvelHeroUpdated = marvelHero.copy(favourite = !marvelHero.favourite)
+        heroDetailViewModel.updateHero(marvelHeroUpdated)
+    }
+
+    private fun bindHeroUpdateEvent() {
+        bindEvents()
+
+        heroDetailViewModel.heroUpdateState.observe(this, Observer { updatedOK ->
+            if (updatedOK != null) {
+                if (!updatedOK) {
+                    showError(R.string.update_error_message)
+                }
+                else {
+                    reloadActivity()
+                }
+            }
+        })
+    }
+
+    fun reloadActivity() {
+        //super.onResume()
+        finish()
+        startActivity(intent)
     }
 
     fun inject() {
@@ -75,7 +104,8 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
     private fun bindEvents() {
         heroDetailViewModel.heroState.observe(this, Observer { marvelHeroEntity ->
             marvelHeroEntity?.let {
-                fillHeroData(it)
+                marvelHero = it
+                fillHeroData(marvelHero)
             }
         })
     }
@@ -116,7 +146,7 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
     private fun setFavouriteIcon(isFavourite: Boolean) {
         heroFavouriteIcon.setImageResource(when(isFavourite) {
             true -> R.drawable.favourite_on
-            else -> R.drawable.favourite_off
+            false -> R.drawable.favourite_off
         })
     }
 
@@ -128,6 +158,10 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    fun showError(messageRes: Int) {
+        Toast.makeText(this, messageRes, Toast.LENGTH_LONG).show()
     }
 
 }
