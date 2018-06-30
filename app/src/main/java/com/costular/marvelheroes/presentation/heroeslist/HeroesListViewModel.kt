@@ -36,6 +36,7 @@ class HeroesListViewModel @Inject constructor(val marvelHeroesRepository: Marvel
         marvelHeroesRepository
                 .updateMarvelHero(marvelHero)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onNext = {
                             heroesListState.value = heroesListState.value

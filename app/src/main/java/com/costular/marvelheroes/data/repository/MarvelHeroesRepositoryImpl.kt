@@ -1,6 +1,5 @@
 package com.costular.marvelheroes.data.repository
 
-import android.text.BoringLayout
 import com.costular.marvelheroes.data.repository.datasource.LocalMarvelHeroesDataSource
 import com.costular.marvelheroes.data.repository.datasource.RemoteMarvelHeroesDataSource
 import com.costular.marvelheroes.domain.model.MarvelHeroEntity
@@ -13,11 +12,13 @@ class MarvelHeroesRepositoryImpl(private val localMarvelHeroesDataSource: LocalM
 
     override fun getMarvelHeroesList(): Observable<List<MarvelHeroEntity>> =
             getMarvelHeroesFromDb()
-                    .concatWith(getMarvelHeroesFromApi())
+                    .doOnError {
+                        getMarvelHeroesFromApi()
+                    }
 
     override fun getMarvelHero(marvelHeroName: String): Observable<MarvelHeroEntity> =
             getMarvelHeroFromDb(marvelHeroName)
-                    .concatWith(getMarvelHeroFromApi(marvelHeroName))
+                    .switchIfEmpty(getMarvelHeroFromApi(marvelHeroName))
 
     override fun updateMarvelHero(marvelHeroEntity: MarvelHeroEntity): Observable<Int> =
             localMarvelHeroesDataSource.updateMarvelHeroFavourite(marvelHeroEntity)

@@ -37,16 +37,20 @@ class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
         setUpViewModel()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        heroListViewModel.loadHeroesList()
+    }
+
 
     fun inject() {
         (application as MainApp).component.inject(this)
     }
 
-
     private fun setUpViewModel() {
         heroListViewModel = ViewModelProviders.of(this, viewModelFactory).get(HeroesListViewModel::class.java)
         bindEvents()
-        heroListViewModel.loadHeroesList()
     }
 
     private fun bindEvents() {
@@ -78,7 +82,7 @@ class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
     }
 
     private fun updateFavouriteHero(hero: MarvelHeroEntity) {
-        // TODO: review why it doesn't update, because it gets de hero.favourite updated.
+        bindEvents()
         heroListViewModel.updateFavourite(hero)
     }
 

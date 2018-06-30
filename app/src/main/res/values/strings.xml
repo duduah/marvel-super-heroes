@@ -3,5 +3,6 @@
 
     <!-- Animations -->
     <string name="image_transition">imageTransition</string>
+    <string name="update_error_message">Error. No se ha podido actualizar la información.</string>
 
 </resources>
