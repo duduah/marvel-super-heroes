@@ -24,6 +24,4 @@ abstract class MarvelHeroesDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     abstract fun updateHero(hero: MarvelHeroEntity): Int
-
-    // TODO: implements update to set favorite item for superheroe
 }

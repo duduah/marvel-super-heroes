@@ -71,7 +71,7 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
     }
 
     private fun bindHeroUpdateEvent() {
-//        bindEvents()
+
         heroDetailViewModel.heroState.observe(this, Observer { marvelHeroEntity ->
             marvelHeroEntity?.let {
                 reloadActivity()

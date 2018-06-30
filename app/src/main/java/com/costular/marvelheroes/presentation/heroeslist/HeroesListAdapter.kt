@@ -16,6 +16,7 @@ import com.bumptech.glide.request.target.Target
 import com.costular.marvelheroes.R
 import com.costular.marvelheroes.domain.model.MarvelHeroEntity
 import kotlinx.android.synthetic.main.item_hero.view.*
+import java.util.function.UnaryOperator
 
 
 typealias Click = (MarvelHeroEntity, ImageView) -> Unit
@@ -41,7 +42,7 @@ class HeroesListAdapter(val clickListener: Click,
     override fun onBindViewHolder(holder: HeroesViewHolder, position: Int) = holder.bind(data[position])
 
     fun swapData(data: List<MarvelHeroEntity>) {
-        //this.data.clear()
+        this.data.clear()
         this.data.addAll(data)
         notifyDataSetChanged()
     }

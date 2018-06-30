@@ -4,7 +4,6 @@ import com.costular.marvelheroes.data.repository.datasource.LocalMarvelHeroesDat
 import com.costular.marvelheroes.data.repository.datasource.RemoteMarvelHeroesDataSource
 import com.costular.marvelheroes.domain.model.MarvelHeroEntity
 import io.reactivex.Observable
-import io.reactivex.rxkotlin.zipWith
 
 
 class MarvelHeroesRepositoryImpl(private val localMarvelHeroesDataSource: LocalMarvelHeroesDataSource,
@@ -13,7 +12,9 @@ class MarvelHeroesRepositoryImpl(private val localMarvelHeroesDataSource: LocalM
 
     override fun getMarvelHeroesList(): Observable<List<MarvelHeroEntity>> =
             getMarvelHeroesFromDb()
-                    .concatWith(getMarvelHeroesFromApi())
+                    .doOnError {
+                        getMarvelHeroesFromApi()
+                    }
 
     override fun getMarvelHero(marvelHeroName: String): Observable<MarvelHeroEntity> =
             getMarvelHeroFromDb(marvelHeroName)
