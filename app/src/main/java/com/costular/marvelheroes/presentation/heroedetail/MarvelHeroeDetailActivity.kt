@@ -64,38 +64,6 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
 
     }
 
-    private fun updateFavourite() {
-        bindHeroUpdateEvent()
-        val marvelHeroUpdated = marvelHero.copy(favourite = !marvelHero.favourite)
-        heroDetailViewModel.updateHero(marvelHeroUpdated)
-    }
-
-    private fun bindHeroUpdateEvent() {
-
-        heroDetailViewModel.heroState.observe(this, Observer { marvelHeroEntity ->
-            marvelHeroEntity?.let {
-                reloadActivity()
-            }
-        })
-
-        heroDetailViewModel.heroUpdateState.observe(this, Observer { updatedOK ->
-            if (updatedOK != null) {
-                if (!updatedOK) {
-                    showError(R.string.update_error_message)
-                }
-                else {
-                    reloadActivity()
-                }
-            }
-        })
-    }
-
-    fun reloadActivity() {
-        //super.onResume()
-        finish()
-        startActivity(intent)
-    }
-
     fun inject() {
         (application as MainApp).component.inject(this)
     }
@@ -115,6 +83,23 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
         })
     }
 
+    private fun bindHeroUpdateEvent() {
+        bindEvents()
+        heroDetailViewModel.heroState.observe(this, Observer { marvelHeroEntity ->
+            marvelHeroEntity?.let {
+                loadViewModel()
+            }
+        })
+
+        heroDetailViewModel.heroUpdateState.observe(this, Observer { updatedOK ->
+            if (updatedOK != null) {
+                if (!updatedOK) {
+                    showError(R.string.update_error_message)
+                }
+            }
+        })
+    }
+
     private fun loadViewModel() {
 
         val heroId: String? = intent?.extras?.getString(PARAM_HERO_ID)
@@ -122,6 +107,12 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
             heroDetailViewModel.loadHero(heroId)
         }
 
+    }
+
+    private fun updateFavourite() {
+        bindHeroUpdateEvent()
+        val marvelHeroUpdated = marvelHero.copy(favourite = !marvelHero.favourite)
+        heroDetailViewModel.updateHero(marvelHeroUpdated)
     }
 
     private fun fillHeroData(hero: MarvelHeroEntity) {
