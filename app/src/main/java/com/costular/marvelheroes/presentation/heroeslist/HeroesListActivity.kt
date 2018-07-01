@@ -16,7 +16,7 @@ import com.costular.marvelheroes.presentation.util.Navigator
 import javax.inject.Inject
 import kotlinx.android.synthetic.main.activity_main.*
 
-class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
+class HeroesListActivity : AppCompatActivity() {
 
     lateinit var heroListViewModel: HeroesListViewModel
 
@@ -90,19 +90,15 @@ class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
         navigator.goToHeroDetail(this, heroName, image)
     }
 
-    override fun showLoading(isLoading: Boolean) {
+    fun showLoading(isLoading: Boolean) {
         heroesListLoading.visibility = if(isLoading) View.VISIBLE else View.GONE
     }
 
-    override fun showHeroesList(heroes: List<MarvelHeroEntity>) {
+    fun showHeroesList(heroes: List<MarvelHeroEntity>) {
         adapter.swapData(heroes)
     }
 
-    override fun showError(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-    }
-
-    override fun showError(messageRes: Int) {
+    fun showError(messageRes: Int) {
         Toast.makeText(this, messageRes, Toast.LENGTH_LONG).show()
     }
 

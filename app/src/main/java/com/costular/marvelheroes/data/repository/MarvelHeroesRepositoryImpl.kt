@@ -14,9 +14,9 @@ class MarvelHeroesRepositoryImpl(private val localMarvelHeroesDataSource: LocalM
             getMarvelHeroesFromApi()
                     .mergeWith(getMarvelHeroesFromDb())
 
-    override fun getMarvelHero(marvelHeroName: String): Observable<MarvelHeroEntity> =
-            getMarvelHeroFromDb(marvelHeroName)
-                    .switchIfEmpty(getMarvelHeroFromApi(marvelHeroName))
+    override fun getMarvelHero(marvelHeroId: String): Observable<MarvelHeroEntity> =
+            getMarvelHeroFromDb(marvelHeroId)
+                    .switchIfEmpty(getMarvelHeroFromApi(marvelHeroId))
 
     override fun updateMarvelHero(marvelHeroEntity: MarvelHeroEntity): Observable<Int> =
             localMarvelHeroesDataSource.updateMarvelHeroFavourite(marvelHeroEntity)

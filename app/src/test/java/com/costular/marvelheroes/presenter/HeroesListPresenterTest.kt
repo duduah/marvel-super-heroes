@@ -1,8 +1,6 @@
 package com.costular.marvelheroes.presenter
 
 import com.costular.marvelheroes.domain.usecase.GetMarvelHeroesList
-import com.costular.marvelheroes.presentation.heroeslist.HeroesListContract
-import com.costular.marvelheroes.presentation.heroeslist.HeroesListPresenter
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
