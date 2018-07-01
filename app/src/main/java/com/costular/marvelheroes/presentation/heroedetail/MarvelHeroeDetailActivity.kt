@@ -26,16 +26,16 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
 
     companion object {
         const val PARAM_HERO = "heroe"
-        const val PARAM_HERO_NAME = "PARAM_HERO_NAME"
+        const val PARAM_HERO_ID = "PARAM_HERO_ID"
 
         fun intent(context: Context, hero: MarvelHeroEntity): Intent =
                 Intent(context, MarvelHeroeDetailActivity::class.java).apply {
                     putExtra(PARAM_HERO, hero)
                 }
 
-        fun intent(context: Context, heroName: String): Intent =
+        fun intent(context: Context, heroId: String): Intent =
                 Intent(context, MarvelHeroeDetailActivity::class.java).apply {
-                    putExtra(PARAM_HERO_NAME, heroName)
+                    putExtra(PARAM_HERO_ID, heroId)
                 }
 
     }
@@ -117,9 +117,9 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
 
     private fun loadViewModel() {
 
-        val heroName: String? = intent?.extras?.getString(PARAM_HERO_NAME)
-        heroName?.let {
-            heroDetailViewModel.loadHero(heroName)
+        val heroId: String? = intent?.extras?.getString(PARAM_HERO_ID)
+        heroId?.let {
+            heroDetailViewModel.loadHero(heroId)
         }
 
     }

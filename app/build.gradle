@@ -16,7 +16,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "API_URL", "\"https://api.myjson.com/bins/bvyob/\""
+        buildConfigField "String", "API_URL", "\"https://api.myjson.com/bins/id8mq/\""
 
         androidExtensions {
             experimental = true

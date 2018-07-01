@@ -16,6 +16,8 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class MarvelHeroEntity(
         @PrimaryKey
+        val id: String,
+
         val name: String,
 
         @ColumnInfo(name = "photo_url")

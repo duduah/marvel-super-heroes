@@ -71,7 +71,7 @@ class HeroesListActivity : AppCompatActivity(), HeroesListContract.View {
     private fun setUpRecycler() {
         adapter = HeroesListAdapter (
                 { hero, image ->
-                    goToHeroDetail(hero.name, image)
+                    goToHeroDetail(hero.id, image)
                 },
                 { hero ->
                     updateFavouriteHero(hero)

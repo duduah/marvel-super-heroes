@@ -13,8 +13,8 @@ abstract class MarvelHeroesDao {
     abstract fun getAllSuperheroes(): Maybe<List<MarvelHeroEntity>>
 
     // TODO: review why Observable raise error: "Not sure how to convert a Cursor to this method's return type"
-    @Query("SELECT * FROM superheroes WHERE name = :heroName")
-    abstract fun getSuperhero(heroName: String): Maybe<MarvelHeroEntity>
+    @Query("SELECT * FROM superheroes WHERE id = :heroId")
+    abstract fun getSuperhero(heroId: String): Maybe<MarvelHeroEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun insertAll(SuperheroesList: List<MarvelHeroEntity>)
