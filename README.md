@@ -2,29 +2,50 @@
 
 Marvel Heroes es una app para Android que lista algunos de los súperheroes de Marvel con sus características.
 
- Main                      |  Detail
-:-------------------------:|:-------------------------:
-![main](https://raw.githubusercontent.com/costular/marvel-super-heroes/master/art/main.png) | ![detail](https://raw.githubusercontent.com/costular/marvel-super-heroes/master/art/detail.png)
 
-## Características ✨
+![Demo][videoDemo]
+
+## Dev environment and tools
 
 - Kotlin
 - MVP Clean (simplificado)
 - Dagger2
 - RxJava2
+- Room
 
-## Notas 📝
+## Arquitectura
+- Se ha adaptado una aplicación que inicialmente estaba implementada usando una arquitectura **MVP** Clean simplificada. Dicha aplicación se ha replanteado con una arquitectura **MVVM**.
+- Se ha implementado la persistencia de datos con [Room][Android Room].
 
-- Utiliza una arquitectura MVP Clean (simplificada). Se ha simplicado dicha arquitectura con motivo de demostrar el uso de una arquitectura limpia con batería de tests sin perder demasiado tiempo teniendo en cuenta que es una app demo.
+- Los componentes como el ActionBar, el uso de `notifyDataSetChanged()`, [Android KTX], etc. que había en la aplicación inicial (MVP) se han mantenido.
 
-- Se ha utilizado ActionBar en lugar de implementar Toolbar con el objetivo de ahorrar tiempo.
+## Descripción de la práctica
+### Objetivos alcanzados
+- Se ha implementado la arquitectura MVVP.
+  - Para la **lista de Marvel Heroes**. A través del `ViewModel` se **consulta** y se **actualiza** el modelo.
+  - Para el **detalle de cada Marvel Hero**, donde también se **carga** y se **actualiza** la información del superhéroe correspondiente mediante el `ViewModel`.
+- Se ha implementado el modelo de bbdd con **Room**. Para casar el modelo de datos con la API se ha creado una nueva que incluye, además, los campos **`id`** (pk) y **`favourite`**.
+- Se ha implementado la funcionalidad de marcar un *Marvel Hero* como **favorito** desde ambas vistas: lista y detalle.
 
-- He utilizado `notifyDataSetChanged()` por el mismo motivo que anteriormente: el tiempo. Sin embargo, lo recomendado sería utilizar [DiffUtil](https://developer.android.com/reference/android/support/v7/util/DiffUtil.html), el cual nos calcula la diferencia entre dos listas para refrescar la información con menos consumo de recursos y animando el resultado.
+> **Nota**  
+> Se ha invertido la carga de datos del repositorio: primero se carga la API y después la bbdd.  
+> El motivo es que se ha invertido mucho tiempo en hacerlo en el orden lógico (primero bbdd y después API) pero se han encontrado muchos inconvenientes y no había tiempo).
 
-- Normalmente suelo aplicar BDD mediante [GivenWhenThen](https://martinfowler.com/bliki/GivenWhenThen.html), sin embargo, este no ha sido el caso (en todos los tests, al menos). Sí, una vez más por el mismo motivo 😛
+### Objetivos pendientes
+Debido al tiempo invertido en el punto anterior (orden de carga del repositorio):
 
-- Se ha utilizado [Android KTX](https://github.com/android/android-ktx) para añadir ciertas extension functions muy interesantes y útiles para el desarrollo. Algunas como `Context.toast()` no están en el repositorio de Maven en el momento que se desarrolla esta app; aunque sí que lo está en el repositorio de GitHub.
+- No se han implementado más tests.
+- No se ha implementado el review.
 
-- Con más tiempo me hubiera gustado implementar [Room](https://developer.android.com/topic/libraries/architecture/room.html) o cualquier otro DAO/ORM para mostrar un ejemplo claro de Repository.
 
-- Podría y debería haber más tests
+<!-- Images -->
+[videoDemo]: ./demo.gif "Demo de la práctica de Android Avanzado | Diego Gay Sáez"
+
+<!-- Links -->
+[performanceEnv]: http://expressjs.com/en/advanced/best-practice-performance.html "Performance Best Practices Usin Express | expressjs"
+
+[GivenWhenThen]: https://martinfowler.com/bliki/GivenWhenThen.html "Given When Then | Martin Fowler"
+
+[Android KTX]: https://github.com/android/android-ktx "Android KTX | Android GitHub"
+
+[Android Room]: https://developer.android.com/topic/libraries/architecture/room "Room Persistence Library | Android Developers"
