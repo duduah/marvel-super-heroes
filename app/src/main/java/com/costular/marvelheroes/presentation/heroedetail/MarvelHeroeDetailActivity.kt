@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -48,6 +49,11 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
 
     lateinit var marvelHero: MarvelHeroEntity
 
+    lateinit var ratingList: List<ImageView>
+
+    var heroRating = 0
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         inject()
 
@@ -60,8 +66,10 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
         supportPostponeEnterTransition() // Wait for image load and then draw the animation
 
         setUpViewModel()
-        heroFavouriteIcon.setOnClickListener { updateFavourite() }
-
+        heroFavouriteIcon.setOnClickListener {
+            updateHero(marvelHero.copy(favourite = !marvelHero.favourite))
+        }
+        setRatingOnClickListener()
     }
 
     fun inject() {
@@ -109,10 +117,9 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
 
     }
 
-    private fun updateFavourite() {
+    private fun updateHero(marvelHeroEntity: MarvelHeroEntity) {
         bindHeroUpdateEvent()
-        val marvelHeroUpdated = marvelHero.copy(favourite = !marvelHero.favourite)
-        heroDetailViewModel.updateHero(marvelHeroUpdated)
+        heroDetailViewModel.updateHero(marvelHeroEntity)
     }
 
     private fun fillHeroData(hero: MarvelHeroEntity) {
@@ -137,6 +144,8 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
         heroDetailPower.text = hero.power
         heroDetailAbilities.text = hero.abilities
         setFavouriteIcon(hero.favourite)
+        heroRating = hero.rating
+        setRatingStars()
     }
 
     private fun setFavouriteIcon(isFavourite: Boolean) {
@@ -158,6 +167,50 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
 
     fun showError(messageRes: Int) {
         Toast.makeText(this, messageRes, Toast.LENGTH_LONG).show()
+    }
+
+    private fun setRatingOnClickListener() {
+        ratingList = listOf(
+                heroFavouriteRating01,
+                heroFavouriteRating02,
+                heroFavouriteRating03,
+                heroFavouriteRating04,
+                heroFavouriteRating05)
+
+        ratingList.map {
+            it.setOnClickListener {
+                val ratingSelected = ratingList.indexOf(it) + 1
+                updateHeroRaging(ratingSelected)
+            }
+        }
+    }
+
+    private fun updateHeroRaging(rating: Int) {
+        if (rating == heroRating) {
+            heroRating = 0
+        }
+        else {
+            heroRating = rating
+        }
+
+        updateHero(marvelHero.copy(rating = heroRating))
+        setRatingStars()
+    }
+
+    private fun setRatingStars() {
+
+        cleanRatingStars()
+
+        for (i in 0..(heroRating - 1)) {
+            ratingList.get(i).setImageResource(R.drawable.favourite_on)
+        }
+    }
+
+    private fun cleanRatingStars() {
+
+        ratingList.map {
+            it.setImageResource(R.drawable.favourite_off)
+        }
     }
 
 }

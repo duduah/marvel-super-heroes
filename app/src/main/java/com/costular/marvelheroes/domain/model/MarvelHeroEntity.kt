@@ -15,19 +15,21 @@ import kotlinx.android.parcel.Parcelize
 @SuppressLint("ParcelCreator")
 @Parcelize
 data class MarvelHeroEntity(
-        @PrimaryKey
-        val id: String,
+    @PrimaryKey
+    val id: String,
 
-        val name: String,
+    val name: String,
 
-        @ColumnInfo(name = "photo_url")
-        val photoUrl: String,
+    @ColumnInfo(name = "photo_url")
+    val photoUrl: String,
 
-        @ColumnInfo(name = "real_name")
-        val realName: String,
-        val height: String,
-        val power: String,
-        val abilities: String,
-        val groups: String,
-        var favourite: Boolean
+    @ColumnInfo(name = "real_name")
+    val realName: String,
+    val height: String,
+    val power: String,
+    val abilities: String,
+    val groups: String,
+    var favourite: Boolean,
+    var rating: Int = 0,
+    var review: String = ""
 ) : Parcelable

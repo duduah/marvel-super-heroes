@@ -4,5 +4,7 @@
     <!-- Animations -->
     <string name="image_transition">imageTransition</string>
     <string name="update_error_message">Error. No se ha podido actualizar la información.</string>
+    <string name="hint_hero_comment">Introduzca una valoración</string>
+    <string name="add_review_button">Añadir valoración</string>
 
 </resources>
